@@ -7,19 +7,16 @@
 //
 
 import UIKit
+import BDBOAuth1Manager
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
-        let splitViewController = self.window!.rootViewController as! UISplitViewController
-        let navigationController = splitViewController.viewControllers[splitViewController.viewControllers.count-1] as! UINavigationController
-        navigationController.topViewController!.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem()
-        splitViewController.delegate = self
         return true
     }
 
@@ -45,17 +42,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
-    // MARK: - Split view
-
-    func splitViewController(splitViewController: UISplitViewController, collapseSecondaryViewController secondaryViewController:UIViewController, ontoPrimaryViewController primaryViewController:UIViewController) -> Bool {
-        guard let secondaryAsNavController = secondaryViewController as? UINavigationController else { return false }
-        guard let topAsDetailController = secondaryAsNavController.topViewController as? DetailViewController else { return false }
-        if topAsDetailController.detailItem == nil {
-            // Return true to indicate that we have handled the collapse by doing nothing; the secondary controller will be discarded.
-            return true
+    func application(app:UIApplication, openURL url:NSURL, options:[String: AnyObject])-> Bool {
+        print (url.description)
+        let requestToken = BDBOAuth1Credential(queryString: url.query)
+        let twitterClient = BDBOAuth1SessionManager(baseURL: NSURL(string:"https://api.twitter.com")!, consumerKey: "s5qQt15ZNHrEhWgEmALKsVPGi", consumerSecret: "IkKGv8veWz6klZSkeKvFR8q9Dm9wUoUXcgmt6V4nr8gX8G6CAI")
+        
+        twitterClient.fetchRequestTokenWithPath("oauth/access_token", method: "POST", callbackURL: NSURL(string:"twitterdemo://oauth"), scope: nil, success: { (requestToken:BDBOAuth1Credential!) -> Void in
+            print("Got a ACCESS token")
+        
+            twitterClient.GET("1.1./account/verify_credentials.json", parameters: nil, progress:nil, success: {(task:NSURLSessionDataTask, response:AnyObject?) -> Void in
+                print ("account:\(response)")
+                let user = response as? NSDictionary
+                print("name: \(user!["name"])")
+            },failure:{(task:NSURLSessionDataTask?, error:NSError) -> Void in
+            })
+        
+            }) {(error:NSError!) -> Void in
+                print ("error : \(error.localizedDescription)")
+                
         }
-        return false
+        return true
     }
-
 }
 
