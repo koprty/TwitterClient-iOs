@@ -28,12 +28,14 @@ class TwitterAPIClient: BDBOAuth1SessionManager {
             success(tweets)
            
             },failure:{(task:NSURLSessionDataTask?,error:NSError )-> Void in
+                print ("wa")
+                print (error.localizedDescription)
                 failure(error)
         })
 
     }
     
-    func currentAccount(){
+    func currentAccount(success: (User) -> (), failure:(NSError)-> ()){
         
         
         GET("1.1/account/verify_credentials.json", parameters: nil, progress:nil, success: {(task:NSURLSessionDataTask, response:AnyObject?) -> Void in
@@ -41,11 +43,9 @@ class TwitterAPIClient: BDBOAuth1SessionManager {
             let userDict = response as! NSDictionary
             
             let user = User(dictionary:userDict)
-            
-            print("user: \(user.name)")
-            
+            success(user)
             },failure:{(task:NSURLSessionDataTask?, error:NSError) -> Void in
-                print ("error : \(error.localizedDescription)")
+               failure(error)
         })
 
         
@@ -79,13 +79,27 @@ class TwitterAPIClient: BDBOAuth1SessionManager {
         let requestToken = BDBOAuth1Credential(queryString: url.query)
         fetchAccessTokenWithPath("oauth/access_token", method: "POST", requestToken: requestToken, success: { (accessToken:BDBOAuth1Credential!) -> Void in
             
+            
+            
             print("Got a ACCESS token")
-            self.loginSuccess?()
-        
+            
+            self.currentAccount({(user:User) -> () in
+                User.currentUser = user
+                self.loginSuccess?()
+                }, failure: { (error:NSError) -> () in
+                    self.loginFailure? (error)
+                })
             }) {(error:NSError!) -> Void in
                 print ("error : \(error.localizedDescription)")
                 
                 self.loginFailure?(error)
         }
+    }
+    
+    func logout (){
+        User.currentUser = nil
+        deauthorize()
+        
+        NSNotificationCenter.defaultCenter().postNotificationName(User.userDidLogoutNotification,object:nil)
     }
 }

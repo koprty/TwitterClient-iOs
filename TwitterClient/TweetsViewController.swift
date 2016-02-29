@@ -15,14 +15,14 @@ class TweetsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
     
-        TwitterAPIClient.sharedInstance.homeTimeline({(tweets:[Tweet]) -> () in
+    TwitterAPIClient.sharedInstance.homeTimeline({(tweets:[Tweet]) -> () in
             
-            self.tweets = tweets
+        self.tweets = tweets
         for tweet in tweets{
             print (tweet.text)
         }
     }, failure: { (error:NSError) -> () in
-        print (error.localizedDescription)
+        print ("Error: \(error.localizedDescription)")
     })
         // Do any additional setup after loading the view.
     }
@@ -32,6 +32,9 @@ class TweetsViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    @IBAction func onLogoutButton(sender: AnyObject) {
+        TwitterAPIClient.sharedInstance.logout()
+    }
 
     /*
     // MARK: - Navigation

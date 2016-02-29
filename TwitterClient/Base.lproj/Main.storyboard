@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
     </dependencies>
     <scenes>
         <!--Log In View Controller-->
@@ -38,25 +39,30 @@
             </objects>
             <point key="canvasLocation" x="5" y="315"/>
         </scene>
-        <!--View Controller-->
+        <!--Tweets View Controller-->
         <scene sceneID="fze-dz-lUg">
             <objects>
-                <viewController id="bEQ-mz-fXy" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="tCP-QY-DAv"/>
-                        <viewControllerLayoutGuide type="bottom" id="gZQ-qL-3rJ"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="TRf-vo-7aQ">
+                <viewController storyboardIdentifier="TweetNavigationController" id="bEQ-mz-fXy" customClass="TweetsViewController" customModule="TwitterClient" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="N27-Xz-AMh">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="jdk-sQ-4bu"/>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="6JY-Vc-EPb">
+                        <leftBarButtonItems>
+                            <barButtonItem title="Logout" id="KiG-zB-PNZ">
+                                <connections>
+                                    <action selector="onLogoutButton:" destination="bEQ-mz-fXy" id="vG9-19-qhQ"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="Item" id="738-y7-JjV"/>
+                        </leftBarButtonItems>
+                    </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UEH-i2-AeU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1100" y="337"/>
+            <point key="canvasLocation" x="1118" y="337"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="rEI-f3-sqU">
