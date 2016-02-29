@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  TwitterClient
 //
-//  Created by Pauline on 2/22/16.
+//  Created by Lise Ho on 2/22/16.
 //  Copyright © 2016 lise_ho. All rights reserved.
 //
 
@@ -44,23 +44,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(app:UIApplication, openURL url:NSURL, options:[String: AnyObject])-> Bool {
         print (url.description)
-        let requestToken = BDBOAuth1Credential(queryString: url.query)
-        let twitterClient = BDBOAuth1SessionManager(baseURL: NSURL(string:"https://api.twitter.com")!, consumerKey: "s5qQt15ZNHrEhWgEmALKsVPGi", consumerSecret: "IkKGv8veWz6klZSkeKvFR8q9Dm9wUoUXcgmt6V4nr8gX8G6CAI")
-        
-        twitterClient.fetchRequestTokenWithPath("oauth/access_token", method: "POST", callbackURL: NSURL(string:"twitterdemo://oauth"), scope: nil, success: { (requestToken:BDBOAuth1Credential!) -> Void in
-            print("Got a ACCESS token")
-        
-            twitterClient.GET("1.1./account/verify_credentials.json", parameters: nil, progress:nil, success: {(task:NSURLSessionDataTask, response:AnyObject?) -> Void in
-                print ("account:\(response)")
-                let user = response as? NSDictionary
-                print("name: \(user!["name"])")
-            },failure:{(task:NSURLSessionDataTask?, error:NSError) -> Void in
-            })
-        
-            }) {(error:NSError!) -> Void in
-                print ("error : \(error.localizedDescription)")
-                
-        }
+       
+        let twitterClient = TwitterAPIClient.sharedInstance
+        twitterClient.handleOpenUrl(url)
+        //twitterClient.login
+
+       
+            
+      
         return true
     }
 }

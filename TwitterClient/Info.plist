@@ -27,7 +27,7 @@
 			<string>com.lise-ho.TwitterClient</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>twitterdemo</string>
+				<string>twitterclient</string>
 			</array>
 		</dict>
 	</array>
