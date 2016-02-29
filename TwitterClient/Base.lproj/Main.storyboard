@@ -39,30 +39,64 @@
             </objects>
             <point key="canvasLocation" x="5" y="315"/>
         </scene>
+        <!--Table View Controller-->
+        <scene sceneID="3rz-Zw-Cvb">
+            <objects>
+                <tableViewController id="1i5-v5-u2z" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="oRU-dG-V9X">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="flj-xu-7ja">
+                                <rect key="frame" x="0.0" y="28" width="600" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="flj-xu-7ja" id="lLG-vd-E67">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="1i5-v5-u2z" id="nBX-bz-OUz"/>
+                            <outlet property="delegate" destination="1i5-v5-u2z" id="PQK-lk-gBs"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Dmk-AO-FZo" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="738" y="-719"/>
+        </scene>
         <!--Tweets View Controller-->
         <scene sceneID="fze-dz-lUg">
             <objects>
                 <viewController storyboardIdentifier="TweetNavigationController" id="bEQ-mz-fXy" customClass="TweetsViewController" customModule="TwitterClient" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="N27-Xz-AMh">
+                    <textView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" layoutMarginsFollowReadableWidth="YES" textAlignment="natural" id="TVz-2a-q2h">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </tableView>
-                    <navigationItem key="navigationItem" id="6JY-Vc-EPb">
+                        <mutableString key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</mutableString>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                    </textView>
+                    <navigationItem key="navigationItem" id="mqW-Xu-764">
                         <leftBarButtonItems>
-                            <barButtonItem title="Logout" id="KiG-zB-PNZ">
+                            <barButtonItem title="Logout" id="JEc-v2-lDd">
                                 <connections>
-                                    <action selector="onLogoutButton:" destination="bEQ-mz-fXy" id="vG9-19-qhQ"/>
+                                    <action selector="onLogoutButton:" destination="bEQ-mz-fXy" id="b68-wa-mT6"/>
                                 </connections>
                             </barButtonItem>
-                            <barButtonItem title="Item" id="738-y7-JjV"/>
+                            <barButtonItem title="Item" id="NKO-OK-8Rl"/>
                         </leftBarButtonItems>
                     </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
+                    <connections>
+                        <outlet property="logoutButton" destination="JEc-v2-lDd" id="W91-gz-T2L"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UEH-i2-AeU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1118" y="337"/>
+            <point key="canvasLocation" x="1158" y="397"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="rEI-f3-sqU">

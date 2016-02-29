@@ -10,11 +10,14 @@ import UIKit
 
 class TweetsViewController: UIViewController {
 
+    @IBOutlet weak var logoutButton: UIBarButtonItem!
     var tweets : [Tweet]!
     
     override func viewDidLoad() {
         super.viewDidLoad()
     
+        logoutButton.title = "LOGOUT"
+        // load API
     TwitterAPIClient.sharedInstance.homeTimeline({(tweets:[Tweet]) -> () in
             
         self.tweets = tweets
