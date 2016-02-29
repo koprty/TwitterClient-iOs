@@ -18,6 +18,7 @@ class TweetCell: UITableViewCell {
     @IBOutlet weak var tweettext: UILabel!
 
     @IBOutlet weak var retweetcount: UILabel!
+    
     @IBOutlet weak var favoritecount: UILabel!
     
     var tweetid : NSString!
@@ -33,4 +34,44 @@ class TweetCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
+    @IBAction func Retweeting(sender: AnyObject) {
+        //retweetcount
+        let defaults = NSUserDefaults.standardUserDefaults()
+        let userData = defaults.objectForKey("currentUserData") as? NSData
+        
+        if let userData = userData {
+            let dictionary = try!
+                NSJSONSerialization.JSONObjectWithData(userData,options:[]) as! NSDictionary
+            
+            let currentUser = User(dictionary: dictionary)
+            // Throwing odd errors.. for now loop through it 
+          
+            retweetcount.text = String(Int(retweetcount.text!)! + 1)
+        //TwitterAPIClient.sharedInstance.updateRetweet((currentUser.id as? String)!)
+    }
+    }
+    
+    
+    @IBAction func Favoriting(sender: AnyObject) {
+        //favoritecount
+        
+        //retweetcount
+        let defaults = NSUserDefaults.standardUserDefaults()
+        let userData = defaults.objectForKey("currentUserData") as? NSData
+        
+        if let userData = userData {
+            let dictionary = try!
+                NSJSONSerialization.JSONObjectWithData(userData,options:[]) as! NSDictionary
+            
+            let currentUser = User(dictionary: dictionary)
+            
+            favoritecount.text = String(Int(favoritecount.text!)! + 1)
+            
+             //retweetcount.text = String(Int(retweetcount.text) + 1)
+            //TwitterAPIClient.sharedInstance.updateFavorites((currentUser.id as? String)!)
+        
+        
+        }
+    
+    }
 }

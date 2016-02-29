@@ -12,7 +12,7 @@ import BDBOAuth1Manager
 class TwitterAPIClient: BDBOAuth1SessionManager {
     
     
-    static var sharedInstance =  TwitterAPIClient(baseURL: NSURL(string:"https://api.twitter.com")!, consumerKey: "s5qQt15ZNHrEhWgEmALKsVPGi", consumerSecret: "IkKGv8veWz6klZSkeKvFR8q9Dm9wUoUXcgmt6V4nr8gX8G6CAI")
+    static var sharedInstance =  TwitterAPIClient(baseURL: NSURL(string:"https://api.twitter.com")!, consumerKey: "SXqFBvQ0ibQxJLzANwYYF1jcN", consumerSecret: "7Dz4eSTJumYpYnPWdgKitBN60OTFgREsp6OdiNY6C3ihT1OS2l")
     
     
     
@@ -49,6 +49,32 @@ class TwitterAPIClient: BDBOAuth1SessionManager {
 
         
     }
+    
+    func updateRetweet (userid:String){
+        //var param = ["id": userid]
+      
+        POST("https://api.twitter.com/1.1/statuses/retweet/"+String(userid)+".json", parameters: nil, progress:nil, success: {(task:NSURLSessionDataTask, response:AnyObject?) -> Void in
+            //print ("account:\(response)")
+
+           
+            },failure:{(task:NSURLSessionDataTask?, error:NSError) -> Void in
+                print ("error : \(error.localizedDescription)")
+        })
+        
+    }
+    
+    func updateFavorites(userid:String){
+        let param = ["id":userid]
+        POST("/1.1/favorites/create.json?", parameters: param, progress:nil, success: {(task:NSURLSessionDataTask, response:AnyObject?) -> Void in
+            //print ("account:\(response)")
+            
+            
+            
+            },failure:{(task:NSURLSessionDataTask?, error:NSError) -> Void in
+                print ("error : \(error.localizedDescription)")
+        })
+
+    }
     var loginSuccess: (() -> ())?
     var loginFailure: ((NSError) -> ())?
     
@@ -80,7 +106,7 @@ class TwitterAPIClient: BDBOAuth1SessionManager {
             
             
             
-            print("Got a ACCESS token")
+            //print("Got a ACCESS token")
             
             self.currentAccount({(user:User) -> () in
                 User.currentUser = user

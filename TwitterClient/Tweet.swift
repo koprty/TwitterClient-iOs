@@ -11,7 +11,7 @@ import UIKit
 class Tweet: NSObject {
 
     var text: NSString?
-    var timestamp: NSDate?
+    var timestamp: NSString?
     var retweetCount: Int = 0
     var favoritesCount: Int = 0
     var profileURL: NSString?
@@ -19,27 +19,31 @@ class Tweet: NSObject {
     var tweetid : NSString
     
     init(dictionary: NSDictionary){
+        
         text = dictionary["text"] as? String
-        screenname = dictionary["screen_name"] as? String
+        screenname = dictionary["user"]!["screen_name"] as? String
         retweetCount = (dictionary["retweet_count"] as? Int) ?? 0
         favoritesCount = (dictionary["favourites_count"] as? Int) ?? 0
-        tweetid = (dictionary["id"] as? String)!
-        profileURL = dictionary["profile_image_url"] as? String
-        print (dictionary)
-        print (screenname)
+        tweetid = String(dictionary["id"])
+        profileURL = dictionary["user"]!["profile_image_url_https"] as? String
+        
         let timestampString = dictionary["created_at"] as? String
         
         
         if let timestampString = timestampString{
             let formatter = NSDateFormatter()
             formatter.dateFormat = "EEE MMM d HH:mm:ss Z y"
-            timestamp = formatter.dateFromString (timestampString)
+            var timestamp2 = NSDate()
+            timestamp2 = formatter.dateFromString (timestampString)!
+            timestamp = timestampString
+            print (timestamp)
+            print (timestampString)
             
         }
     }
     class func tweetsWithArray(dictionaries:[NSDictionary]) -> [Tweet]{
         var tweets = [Tweet]()
-        
+   
         for dictionary in dictionaries {
             print (dictionary)
             let tweet = Tweet(dictionary:dictionary)

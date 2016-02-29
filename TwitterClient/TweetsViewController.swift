@@ -44,15 +44,15 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("com.TweetCell", forIndexPath: indexPath) as! TweetCell
         if self.dataloaded {
-            print (tweets.count)
+            //print (tweets.count)
             let tweet = tweets[indexPath.row]
-            print (tweet.profileURL)
+            //print (tweet.profileURL)
             cell.tweetid = tweet.tweetid
             cell.username.text = tweet.screenname as? String
-            cell.timestamp.text = String(tweet.timestamp)
+            cell.timestamp.text = tweet.timestamp as? String
             cell.retweetcount.text = String(tweet.retweetCount)
             cell.favoritecount.text = String(tweet.favoritesCount)
-
+            cell.tweettext.text = tweet.text as? String
             
             //set profile pict
             let image_url =  NSURL(string:tweet.profileURL as! String)
@@ -62,8 +62,6 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 success:{(photoRequest, photoResponse, image) -> Void in
                     
                     cell.profilepic.image = image
-                    
-                    
                     
                 }, failure: { (photoRequest, imageResponse, error) -> Void in
                     // do something for the failure condition

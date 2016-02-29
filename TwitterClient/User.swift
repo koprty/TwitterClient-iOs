@@ -14,7 +14,7 @@ class User: NSObject {
     var screenname: NSString?
     var profileUrl: NSURL?
     var tag : NSString?
-    
+    var id : NSString?
     var dictionary: NSDictionary?
     
     init(dictionary:NSDictionary){
@@ -30,7 +30,7 @@ class User: NSObject {
         }
         tag = dictionary["description"] as? String
         
-
+        id = dictionary["id"] as? String
     }
     static var _currentUser:User?
     
