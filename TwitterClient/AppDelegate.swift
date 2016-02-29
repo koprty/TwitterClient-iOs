@@ -27,6 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             window?.rootViewController = vc
             
+            
         }else{
             print ("No Current User")
         }

@@ -14,14 +14,19 @@ class Tweet: NSObject {
     var timestamp: NSDate?
     var retweetCount: Int = 0
     var favoritesCount: Int = 0
-    
+    var profileURL: NSString?
+    var screenname : NSString?
+    var tweetid : NSString
     
     init(dictionary: NSDictionary){
         text = dictionary["text"] as? String
-        
+        screenname = dictionary["screen_name"] as? String
         retweetCount = (dictionary["retweet_count"] as? Int) ?? 0
         favoritesCount = (dictionary["favourites_count"] as? Int) ?? 0
-        
+        tweetid = (dictionary["id"] as? String)!
+        profileURL = dictionary["profile_image_url"] as? String
+        print (dictionary)
+        print (screenname)
         let timestampString = dictionary["created_at"] as? String
         
         
@@ -36,6 +41,7 @@ class Tweet: NSObject {
         var tweets = [Tweet]()
         
         for dictionary in dictionaries {
+            print (dictionary)
             let tweet = Tweet(dictionary:dictionary)
             tweets.append(tweet)
         }

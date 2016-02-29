@@ -28,7 +28,6 @@ class TwitterAPIClient: BDBOAuth1SessionManager {
             success(tweets)
            
             },failure:{(task:NSURLSessionDataTask?,error:NSError )-> Void in
-                print ("wa")
                 print (error.localizedDescription)
                 failure(error)
         })
