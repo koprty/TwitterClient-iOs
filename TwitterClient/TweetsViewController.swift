@@ -47,6 +47,7 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
             //print (tweets.count)
             let tweet = tweets[indexPath.row]
             //print (tweet.profileURL)
+            
             cell.tweetid = tweet.tweetid
             cell.username.text = tweet.screenname as? String
             cell.timestamp.text = tweet.timestamp as? String
@@ -126,5 +127,22 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         // Pass the selected object to the new view controller.
     }
     */
+    
+    
+ 
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        let cell = sender as! TweetCell
+        let indexPath = tableView.indexPathForCell(cell)
+        let tweetie = tweets[indexPath!.row]
+        // assign segue's destination View Controller
+        // class is uppercase
+        let elementViewController = segue.destinationViewController as! TweetDetailsViewController
+                print ("prepareForSegue has been called")
+        
+        elementViewController.tweet = tweetie
+        // Get the new view controller using segue.destinationViewController.
+        // Pass the selected object to the new view controller.
+    }
+
 
 }
