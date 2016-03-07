@@ -10,27 +10,28 @@ import UIKit
 
 class User: NSObject {
     static let userDidLogoutNotification = "UserLoggedOut"
-    var name:NSString?
-    var screenname: NSString?
+    var name:NSString!
+    var screenname: NSString!
     var profileUrl: NSURL?
-    var tag : NSString?
-    var id : NSString?
-    var dictionary: NSDictionary?
+    var tag : NSString!
+    var id : NSString!
+    var dictionary: NSDictionary!
     
     init(dictionary:NSDictionary){
         
         self.dictionary = dictionary
-        name = dictionary["name"] as? String
-        screenname = dictionary["profile_image_url_https"] as? String
+        name = dictionary["name"] as! String
+        screenname = dictionary["screen_name"] as! String
         
         //deserialization -> pulling out specific data from dictionary
         let profileUrlString = dictionary["profile_image_url_https"] as? String
         if let profileUrlString = profileUrlString{
             profileUrl = NSURL(string:profileUrlString)
+        }else{
+            profileUrl = nil
         }
-        tag = dictionary["description"] as? String
-        
-        id = dictionary["id"] as? String
+        tag = dictionary["description"] as! String
+        id = String(dictionary["id"]) as! String
     }
     static var _currentUser:User?
     

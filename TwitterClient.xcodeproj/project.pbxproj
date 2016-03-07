@@ -22,6 +22,7 @@
 		E356C7E71C83B0ED00BEB9D9 /* TwitterAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E356C7E61C83B0ED00BEB9D9 /* TwitterAPIClient.swift */; };
 		E356C7EB1C83C21E00BEB9D9 /* TweetsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E356C7EA1C83C21E00BEB9D9 /* TweetsViewController.swift */; };
 		E3B2B4F81C8CD63400E38895 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3B2B4F71C8CD63400E38895 /* ProfileViewController.swift */; };
+		E3FF52051C8E2C580034CA0E /* NewTweetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3FF52041C8E2C580034CA0E /* NewTweetViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +66,7 @@
 		E356C7E61C83B0ED00BEB9D9 /* TwitterAPIClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwitterAPIClient.swift; sourceTree = "<group>"; };
 		E356C7EA1C83C21E00BEB9D9 /* TweetsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TweetsViewController.swift; sourceTree = "<group>"; };
 		E3B2B4F71C8CD63400E38895 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		E3FF52041C8E2C580034CA0E /* NewTweetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewTweetViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -171,6 +173,7 @@
 			children = (
 				0ABA9EFB1C7B4842007DA18D /* LogInViewController.swift */,
 				E3B2B4F71C8CD63400E38895 /* ProfileViewController.swift */,
+				E3FF52041C8E2C580034CA0E /* NewTweetViewController.swift */,
 				E356C7EA1C83C21E00BEB9D9 /* TweetsViewController.swift */,
 				E356344B1C8D287700819CF8 /* TweetDetailsViewController.swift */,
 			);
@@ -385,6 +388,7 @@
 				0ABA9EFC1C7B4842007DA18D /* LogInViewController.swift in Sources */,
 				E3B2B4F81C8CD63400E38895 /* ProfileViewController.swift in Sources */,
 				E356C7E71C83B0ED00BEB9D9 /* TwitterAPIClient.swift in Sources */,
+				E3FF52051C8E2C580034CA0E /* NewTweetViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

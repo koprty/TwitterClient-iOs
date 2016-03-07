@@ -11,32 +11,132 @@ import UIKit
 class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource
 {
 
+    @IBOutlet weak var mytweetcount: UILabel!
+    @IBOutlet weak var myfollowingcount: UILabel!
+    @IBOutlet weak var myfollowercount: UILabel!
+    @IBOutlet weak var myprofilename: UILabel!
+    @IBOutlet weak var myscreenname: UILabel!
+    @IBOutlet weak var headerimage: UIImageView!
+    @IBOutlet weak var profiepic: UIImageView!
     var tweets : [Tweet]!
     var dataloaded = false
+    var profileID:String! = ""
+    var myprofile : NSDictionary! = [:]
     @IBOutlet weak var tableView: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
+       
                 //self.navigationController?.navigationBar.hidden = false
         
         
         // load API
-        TwitterAPIClient.sharedInstance.homeTimeline({(tweets:[Tweet]) -> () in
+        TwitterAPIClient.sharedInstance.homeTimeline( {(tweets:[Tweet]) -> () in
             
             self.tweets = tweets
-            for tweet in tweets{
-                print (tweet.text)
-            }
+            //for tweet in tweets{
+                //print (tweet.text)
+            //}
             self.dataloaded = true
             self.tableView.reloadData()
             }, failure: { (error:NSError) -> () in
                 print ("Error: \(error.localizedDescription)")
                 self.dataloaded = false
         })
-        // Do any additional setup after loading the view.
+        print (profileID)
+        if (profileID!.characters.count <= 0){
+            profileID = User.currentUser!.screenname as String
+        }
+        print (User.currentUser!.screenname)
         
+        TwitterAPIClient.sharedInstance.getProfile(profileID!, success: {(profile:NSDictionary)->( ) in
+        
+            self.myprofile = profile
+            print (profile)
+            
+            
+            self.myfollowercount.text = "Followers: " + String(self.myprofile["followers_count"]!)
+            self.myfollowingcount.text = "Following: " + String(self.myprofile["friends_count"]!)
+            self.mytweetcount.text = "Tweets: " + String(self.myprofile["statuses_count"]!)
+            self.myscreenname.text = String(self.myprofile["screen_name"]!)
+            self.myprofilename.text = String(self.myprofile["description"]!)
+        
+            
+             let image_url =  NSURL(string:self.myprofile["profile_image_url_https"] as! String)
+             let photoRequest = NSURLRequest(URL: image_url!)
+            
+            self.profiepic.setImageWithURLRequest(photoRequest, placeholderImage:nil,
+                success:{(photoRequest, photoResponse, image) -> Void in
+                    
+                    self.profiepic.image = image
+                    
+                }, failure: { (photoRequest, imageResponse, error) -> Void in
+                    // do something for the failure condition
+            })
+                
+        
+            
+            let image_url2 =  NSURL(string:self.myprofile["profile_banner_url"] as!String)
+            let photoRequest2 = NSURLRequest(URL: image_url2!)
+            
+            self.headerimage.setImageWithURLRequest(photoRequest2, placeholderImage:nil,
+                success:{(photoRequest, photoResponse, image) -> Void in
+                    
+                    self.headerimage.image = image
+                    
+                }, failure: { (photoRequest, imageResponse, error) -> Void in
+                    // do something for the failure condition
+            })
+   
+  }, failure:{(error:NSError) -> () in
+                print ("Error: \(error.localizedDescription)")
+                
+        })
+         
+        print (self.myprofile)
+        
+        
+        
+        print("HELLO WORLD")
+        // Do any additional setup after loading the view.
+        // LOAD ALL ATTRIBUTES WHEN NSDICTIONARY IS RECEIVED
+/*
+        myfollowercount.text = myprofile["followers_count"] as? String
+        myfollowingcount.text = myprofile["following"] as? String
+        mytweetcount.text = myprofile["statuses_count"] as? String
+        myscreenname.text = myprofile["screen_name"] as? String
+        myprofilename.text = myprofile["description"] as? String
+        print (myprofile["profile_image_url_https"])
+        //set profile pict
+        var image_url =  NSURL(string:myprofile["profile_image_url_https"] as! String)
+        var photoRequest = NSURLRequest(URL: image_url!)
+        
+        profiepic.setImageWithURLRequest(photoRequest, placeholderImage:nil,
+            success:{(photoRequest, photoResponse, image) -> Void in
+                
+                self.profiepic.image = image
+                
+            }, failure: { (photoRequest, imageResponse, error) -> Void in
+                // do something for the failure condition
+        })
+
+        image_url =  NSURL(string:(myprofile["profile_background_image_url_https"] as? String)!)
+        photoRequest = NSURLRequest(URL: image_url!)
+        
+        headerimage.setImageWithURLRequest(photoRequest, placeholderImage:nil,
+            success:{(photoRequest, photoResponse, image) -> Void in
+                
+                self.headerimage.image = image
+                
+            }, failure: { (photoRequest, imageResponse, error) -> Void in
+                // do something for the failure condition
+        })
+*/
+        //profiepic = myprofile["profile_image_url_https"] as! String
+        //sheaderimage = myprofile["profile_backgroune_image_url"] as! String
         tableView.dataSource = self
         tableView.delegate = self
-
+        
+        
         
     }
 
@@ -85,7 +185,6 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if self.dataloaded{
-            print (tweets.count)
             return tweets.count
         }else{
             loadData()
@@ -99,9 +198,6 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         TwitterAPIClient.sharedInstance.homeTimeline({(tweets:[Tweet]) -> () in
             
             self.tweets = tweets
-            for tweet in tweets{
-                print (tweet.text)
-            }
             }, failure: { (error:NSError) -> () in
                 print ("Error: \(error.localizedDescription)")
         })
@@ -131,6 +227,11 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
  
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if (sender is UIBarButtonItem){
+            let elementViewController = segue.destinationViewController as! NewTweetViewController
+            
+            
+        }else{
         let cell = sender as! TweetCell
         let indexPath = tableView.indexPathForCell(cell)
         let tweetie = tweets[indexPath!.row]
@@ -142,6 +243,7 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         elementViewController.tweet = tweetie
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        }
     }
 
 

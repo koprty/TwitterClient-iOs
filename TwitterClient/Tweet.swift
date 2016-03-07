@@ -23,7 +23,8 @@ class Tweet: NSObject {
         text = dictionary["text"] as? String
         screenname = dictionary["user"]!["screen_name"] as? String
         retweetCount = (dictionary["retweet_count"] as? Int) ?? 0
-        favoritesCount = (dictionary["favourites_count"] as? Int) ?? 0
+        favoritesCount = (dictionary["favorite_count"] as? Int) ?? 0
+       
         tweetid = String(dictionary["id"])
         profileURL = dictionary["user"]!["profile_image_url_https"] as? String
         

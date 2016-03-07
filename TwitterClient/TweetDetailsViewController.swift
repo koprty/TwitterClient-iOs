@@ -27,8 +27,10 @@ class TweetDetailsViewController: UIViewController {
         user_tweet.text = tweet!.screenname as? String
         timestamp_tweet.text = tweet!.timestamp as? String
         description_tweet.text = tweet!.text as? String
-        retweet_count.text = String(tweet?.retweetCount)
-        fav_count.text = String(tweet?.favoritesCount)
+        retweet_count.text = String(tweet!.retweetCount)
+        print (tweet!.favoritesCount)
+        print (fav_count.text)
+        fav_count.text = String(tweet!.favoritesCount)
         
         
         let image_url =  NSURL(string:tweet!.profileURL as! String)
@@ -54,8 +56,9 @@ class TweetDetailsViewController: UIViewController {
     
     func profileTapped(recognizer:UITapGestureRecognizer){
         let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
-        let secondViewController = storyBoard.instantiateViewControllerWithIdentifier("ProfileView") as! ProfileViewController
-        secondViewController.profileID = tweet.
+        let secondViewController = storyBoard.instantiateViewControllerWithIdentifier("TimelineProfileView") as! TweetsViewController
+        secondViewController.profileID = String(tweet!.screenname)
+        print (tweet!.screenname)
         self.presentViewController(secondViewController, animated:true, completion:nil)
     
     }

@@ -28,7 +28,7 @@ class LogInViewController: UIViewController {
         
         // we do this login call once
         twitterClient.login({ () -> () in
-            print ("LOGGED IN ")
+            //print ("LOGGED IN ")
             
             self.performSegueWithIdentifier("loginSegue", sender: nil)
         })

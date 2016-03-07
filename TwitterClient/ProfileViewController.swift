@@ -12,10 +12,22 @@ class ProfileViewController: UIViewController {
 
     //var profileID : String
     //https://api.twitter.com/1.1/users/show.json?screen_name=
+    let twitterClient = TwitterAPIClient.sharedInstance
+    var profileID : String!
+    
     override func viewDidLoad() {
-        //profileID = ""
-        super.viewDidLoad()
-
+        /*        super.viewDidLoad()
+        
+        TwitterAPIClient.sharedInstance.getProfile(profileID, success: {(profile:NSDictionary)->( ) in
+            
+            self.myprofile = profile
+            
+            }, failure:{(error:NSError) -> () in
+                print ("Error: \(error.localizedDescription)")
+                
+        })
+        print (profile)
+*/
         // Do any additional setup after loading the view.
     }
 
@@ -24,10 +36,6 @@ class ProfileViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        
-    }
-
     /*
     // MARK: - Navigation
 

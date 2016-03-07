@@ -33,9 +33,27 @@ class TwitterAPIClient: BDBOAuth1SessionManager {
         })
 
     }
+        
+    func getProfile (screenname:String, success: NSDictionary-> (), failure:NSError -> () ){
+    
+        let params = ["screen_name": screenname]
+        
+        GET("1.1/users/show.json",parameters: params,progress: nil,success: {(task:NSURLSessionDataTask, response:AnyObject?)-> Void in
+        let tweetdictionaries = response as! NSDictionary
+            
+            success(tweetdictionaries)
+            
+        },failure:{(task:NSURLSessionDataTask?,error:NSError )-> Void in
+            print (error.localizedDescription)
+           failure(error)
+    
+    });
+        //print (tweetdictionaries)
+
+    }
     
     func currentAccount(success: (User) -> (), failure:(NSError)-> ()){
-        
+    
         
         GET("1.1/account/verify_credentials.json", parameters: nil, progress:nil, success: {(task:NSURLSessionDataTask, response:AnyObject?) -> Void in
             //print ("account:\(response)")
@@ -74,6 +92,19 @@ class TwitterAPIClient: BDBOAuth1SessionManager {
                 print ("error : \(error.localizedDescription)")
         })
 
+    }
+    
+    func newTweet (status:String){
+        //"https://api.twitter.com/1.1/statuses/update.json?status=Maybe%20he%27ll%20finally%20find%20his%20keys.%20%23peterfalk"
+        var status = ""
+        let param = []
+        var newStatusRequest = "1.1/statuses/update.json?" + status
+        POST(newStatusRequest , parameters:  param, progress: nil, success: {(task:NSURLSessionDataTask, response:AnyObject? ) -> Void in
+            
+        }, failure: {(task:NSURLSessionDataTask?, error: NSError) -> Void in
+                print ("error : \(error.localizedDescription)")
+        })
+        
     }
     var loginSuccess: (() -> ())?
     var loginFailure: ((NSError) -> ())?
