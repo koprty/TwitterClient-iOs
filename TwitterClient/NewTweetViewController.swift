@@ -2,7 +2,7 @@
 //  NewTweetViewController.swift
 //  TwitterClient
 //
-//  Created by Lise Ho on 3/7/16.
+//  Created by Lise Ho on 3/6/16.
 //  Copyright © 2016 lise_ho. All rights reserved.
 //
 
@@ -20,6 +20,7 @@ class NewTweetViewController: UIViewController, UITextViewDelegate{
     override func viewDidLoad() {
         super.viewDidLoad()
         var user = User._currentUser
+         self.compose_button.titleLabel!.adjustsFontSizeToFitWidth  = true
         new_screenname.text = String(user!.screenname)
         let image_url =  user!.profileUrl
             let photoRequest = NSURLRequest(URL: image_url!)
@@ -42,9 +43,14 @@ class NewTweetViewController: UIViewController, UITextViewDelegate{
         self.new_Tweet_text.delegate = self
         
         
-        self.compose_button.backgroundColor = UIColor.blueColor()
-        self.compose_button.layer.borderWidth = 3
+        self.compose_button.layer.borderWidth = 1
         self.compose_button.layer.cornerRadius = 3
+        
+        self.tweet_text_count.text = String(new_Tweet_text.text.characters.count)
+        
+        let tapGestureRecognizer = UITapGestureRecognizer(target:self, action:Selector("profileTapped:"))
+        new_profile.userInteractionEnabled = true
+        new_profile.addGestureRecognizer(tapGestureRecognizer)
         
     }
     @IBAction func ComposeTweet(sender: AnyObject) {
@@ -52,23 +58,64 @@ class NewTweetViewController: UIViewController, UITextViewDelegate{
         
         if (new_Tweet_text.text.characters.count > 0){
                 // send request
+            new_Tweet_text.resignFirstResponder()
+            var new_tweet = new_Tweet_text.text as String
+            TwitterAPIClient.sharedInstance.newTweet (new_tweet, success: {(response:NSDictionary)->( ) in
+                var resp = response
+                if (!(resp["text"] is NSNull)){
+                    self.compose_button.titleLabel!.numberOfLines = 1
+                    self.compose_button.titleLabel!.text = "YES! YOU HAVE TWEETED!"
+                    self.compose_button.titleLabel!.adjustsFontSizeToFitWidth  = true
+                    
+                }else{
+                    self.compose_button.titleLabel!.numberOfLines = 1
+                    self.compose_button.titleLabel!.text = "Your Tweet was not be published."
+                    self.compose_button.titleLabel!.adjustsFontSizeToFitWidth  = true
+                }
+                
+                
+                }, failure: { (error ) -> Void in
+                    print (error)
+                    // do something for the failure condition
+                    self.compose_button.titleLabel!.numberOfLines = 1
+                    self.compose_button.titleLabel!.text = "Your Tweet was not be published."
+                    self.compose_button.titleLabel!.adjustsFontSizeToFitWidth  = true
+            })
+
+            
+            
+            
             
         }
     
     
     }
-    func textView(textView: UITextView, shouldChangeTextInRange  range: NSRange, replacementText text: String) -> Bool {
-        
+
+    func textViewDidChange(textView: UITextView) { //Handle the text changes here
+    
         if (textView.text!.characters.count > maxLength) {
             textView.deleteBackward()
         }
         self.tweet_text_count.text = String(maxLength-textView.text!.characters.count)
-        textView.resignFirstResponder()
-            
-       return true
+        
+        
+        
     }
-        //return true
+       
     
+    func profileTapped(recognizer:UITapGestureRecognizer){
+        let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        
+        let secondViewController = storyBoard.instantiateViewControllerWithIdentifier("TimelineProfileView") as! TweetsViewController
+        secondViewController.profileID = String(User._currentUser!.screenname!)
+        print (User._currentUser!.screenname!)
+        print(":LLLLLLLL:")
+        let navigationController = UINavigationController(rootViewController:secondViewController)
+        
+        self.presentViewController(navigationController, animated: true, completion: nil)
+      
+        
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

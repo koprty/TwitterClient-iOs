@@ -33,7 +33,27 @@ class TwitterAPIClient: BDBOAuth1SessionManager {
         })
 
     }
+    
+    func userTimeline(screenname:String, success: ([Tweet])-> (), failure:NSError -> () ){
         
+        let param = ["screen_name":screenname]
+        var temp1 : String!
+        temp1 = screenname
+       
+        GET("1.1/statuses/user_timeline.json",parameters: param,progress: nil,success: {(task:NSURLSessionDataTask, response:AnyObject?)-> Void in
+            let tweetdictionaries = response as! [NSDictionary]
+            
+            let tweets = Tweet.tweetsWithArray(tweetdictionaries)
+            print (tweetdictionaries)
+            success(tweets)
+            
+            },failure:{(task:NSURLSessionDataTask?,error:NSError )-> Void in
+                print (error.localizedDescription)
+                failure(error)
+        })
+        
+    }
+
     func getProfile (screenname:String, success: NSDictionary-> (), failure:NSError -> () ){
     
         let params = ["screen_name": screenname]
@@ -70,8 +90,8 @@ class TwitterAPIClient: BDBOAuth1SessionManager {
     
     func updateRetweet (userid:String){
         //var param = ["id": userid]
-      
-        POST("https://api.twitter.com/1.1/statuses/retweet/"+String(userid)+".json", parameters: nil, progress:nil, success: {(task:NSURLSessionDataTask, response:AnyObject?) -> Void in
+        let param = ["id":userid]
+        POST("1.1/statuses/retweet", parameters: nil, progress:nil, success: {(task:NSURLSessionDataTask, response:AnyObject?) -> Void in
             //print ("account:\(response)")
 
            
@@ -83,7 +103,7 @@ class TwitterAPIClient: BDBOAuth1SessionManager {
     
     func updateFavorites(userid:String){
         let param = ["id":userid]
-        POST("/1.1/favorites/create.json?", parameters: param, progress:nil, success: {(task:NSURLSessionDataTask, response:AnyObject?) -> Void in
+        POST("1.1/favorites/create.json", parameters: param, progress:nil, success: {(task:NSURLSessionDataTask, response:AnyObject?) -> Void in
             //print ("account:\(response)")
             
             
@@ -94,16 +114,22 @@ class TwitterAPIClient: BDBOAuth1SessionManager {
 
     }
     
-    func newTweet (status:String){
+    func newTweet (status:String, success: NSDictionary -> (), failure:NSError -> () ){
+        
+        let params = ["status": status]
+        
+        
         //"https://api.twitter.com/1.1/statuses/update.json?status=Maybe%20he%27ll%20finally%20find%20his%20keys.%20%23peterfalk"
-        var status = ""
-        let param = []
-        var newStatusRequest = "1.1/statuses/update.json?" + status
-        POST(newStatusRequest , parameters:  param, progress: nil, success: {(task:NSURLSessionDataTask, response:AnyObject? ) -> Void in
-            
-        }, failure: {(task:NSURLSessionDataTask?, error: NSError) -> Void in
-                print ("error : \(error.localizedDescription)")
-        })
+        let newStatusRequest = "1.1/statuses/update.json"
+        POST(newStatusRequest , parameters:  params, progress: nil, success: {(task:NSURLSessionDataTask, response:AnyObject? ) -> Void in
+            let newTweetResponse = response as! NSDictionary
+            success(newTweetResponse );
+            },failure:{(task:NSURLSessionDataTask?,error:NSError )-> Void in
+                print (error.localizedDescription)
+                failure(error)
+                
+        });
+        //print (tweetdictionaries)
         
     }
     var loginSuccess: (() -> ())?
