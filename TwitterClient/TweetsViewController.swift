@@ -36,25 +36,25 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         }
         if(User._currentUser!.screenname != profileID){
             ButtonTitle.titleLabel!.text = profileID
-            print("______")
-            print (profileID! as! String)
-            print ("______")
+            //print("______")
+            //print (profileID! as! String)
+            //print ("______")
             TwitterAPIClient.sharedInstance.userTimeline(profileID! as! String, success: {(tweets:[Tweet]) -> () in
                 
                 self.tweets = tweets
-                //for tweet in tweets{
-                //print (tweet.text)
-                //}
+                
                 self.dataloaded = true
                 self.tableView.reloadData()
+                print("YUUUUMMM")
+                print (tweets)
                 }, failure: { (error:NSError) -> () in
                     print ("Error: \(error.localizedDescription)")
                     self.dataloaded = false
             })
         
         }else{
-            print(profileID)
-            print(User._currentUser!.screenname)
+            //print(profileID)
+            //print(User._currentUser!.screenname)
             ButtonTitle.titleLabel!.text = "Your Timeline"
 
             TwitterAPIClient.sharedInstance.homeTimeline( {(tweets:[Tweet]) -> () in
@@ -134,7 +134,7 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
             TwitterAPIClient.sharedInstance.getProfile(profileID!, success: {(profile:NSDictionary)->( ) in
                 
                 self.myprofile = profile
-                print (profile)
+                //print (profile)
                 
                 
                 self.myfollowercount.text = "Followers: " + String(self.myprofile["followers_count"]!)
@@ -182,6 +182,8 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
             self.tweets = tweets
             self.dataloaded = true
             self.tableView.reloadData()
+            print("ALSKDJFLAKDSJFLAKSDJF WOOOOPPP")
+            print (self.tweets)
             }, failure: { (error:NSError) -> () in
                 print ("Error: \(error.localizedDescription)")
                 self.dataloaded = false
@@ -244,12 +246,28 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
 
     func loadData(){
+        if (profileID == User._currentUser!.screenname){
         TwitterAPIClient.sharedInstance.homeTimeline({(tweets:[Tweet]) -> () in
             
             self.tweets = tweets
             }, failure: { (error:NSError) -> () in
                 print ("Error: \(error.localizedDescription)")
         })
+        }else{
+            TwitterAPIClient.sharedInstance.userTimeline(profileID! as! String, success: {(tweets:[Tweet]) -> () in
+                
+                self.tweets = tweets
+                
+                self.dataloaded = true
+                self.tableView.reloadData()
+                print("RAWRRRR")
+                print (tweets)
+                }, failure: { (error:NSError) -> () in
+                    print ("Error: \(error.localizedDescription)")
+                    self.dataloaded = false
+            })
+
+        }
     }
     
     
